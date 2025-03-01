@@ -8,6 +8,7 @@ interface LabelPreviewProps {
   productName?: string;
   quantity?: number;
   sku?: string;
+  productImage?: string;
   onPrint?: () => void;
 }
 
@@ -15,6 +16,7 @@ const LabelPreview: React.FC<LabelPreviewProps> = ({
   productName = "Nome do Produto",
   quantity = 10,
   sku = "SKU12345",
+  productImage = "",
   onPrint = () => console.log("Imprimir etiqueta"),
 }) => {
   const barcodeRef = useRef<SVGSVGElement>(null);
@@ -40,8 +42,14 @@ const LabelPreview: React.FC<LabelPreviewProps> = ({
       <h2 className="text-xl font-bold mb-4">Visualização da Etiqueta</h2>
 
       {/* Label Preview Card - Simulating a 10x15 vertical label */}
-      <Card className="w-full max-w-[400px] h-[600px] bg-white border-2 border-gray-300 shadow-md mb-4 label-preview-card">
-        <CardContent className="p-6 flex flex-col h-full">
+      <Card
+        className="w-full max-w-[400px] h-[600px] bg-white border-2 border-gray-300 shadow-md mb-4 label-preview-card"
+        style={{ aspectRatio: "2/3" }}
+      >
+        <CardContent
+          className="p-6 flex flex-col h-full"
+          style={{ boxSizing: "border-box" }}
+        >
           {/* Company Logo/Header */}
           <div className="text-center border-b-2 border-black pb-4 mb-6">
             <h1 className="text-2xl font-bold">JQ SHOP</h1>
@@ -50,9 +58,26 @@ const LabelPreview: React.FC<LabelPreviewProps> = ({
 
           {/* Product Information */}
           <div className="flex-grow flex flex-col items-center justify-center space-y-6">
-            <div className="text-center w-full">
-              <h2 className="text-xl font-bold mb-1">Produto:</h2>
-              <p className="text-3xl font-bold break-words">{productName}</p>
+            <div className="w-full">
+              <h2 className="text-xl font-bold mb-1 text-center">Produto:</h2>
+              <div className="flex items-center justify-center gap-2">
+                {productImage && (
+                  <div className="h-24 w-24 rounded-md overflow-hidden border border-gray-300">
+                    <img
+                      src={productImage}
+                      alt={productName}
+                      className="h-full w-full object-cover"
+                      onError={(e) => {
+                        e.currentTarget.src =
+                          "https://api.dicebear.com/7.x/avataaars/svg?seed=placeholder";
+                      }}
+                    />
+                  </div>
+                )}
+                <p className="text-3xl font-bold break-words flex-1 text-center">
+                  {productName}
+                </p>
+              </div>
             </div>
 
             <div className="text-center w-full">
