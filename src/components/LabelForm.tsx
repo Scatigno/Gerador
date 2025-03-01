@@ -1,9 +1,15 @@
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect, useRef } from "react";
 import { Button } from "./ui/button";
 import { Input } from "./ui/input";
 import { Label } from "./ui/label";
 import { Card } from "./ui/card";
-import { Barcode, Printer, RotateCcw } from "lucide-react";
+import {
+  Barcode,
+  Printer,
+  RotateCcw,
+  Upload,
+  Image as ImageIcon,
+} from "lucide-react";
 
 interface LabelFormProps {
   onFormChange?: (formData: LabelFormData) => void;
@@ -15,6 +21,7 @@ export interface LabelFormData {
   productName: string;
   quantity: string;
   sku: string;
+  productImage?: string;
 }
 
 const LabelForm: React.FC<LabelFormProps> = ({
@@ -26,7 +33,9 @@ const LabelForm: React.FC<LabelFormProps> = ({
     productName: "",
     quantity: "",
     sku: "",
+    productImage: "",
   });
+  const fileInputRef = useRef<HTMLInputElement>(null);
   const [showScanner, setShowScanner] = useState(false);
 
   const handleInputChange = (e: React.ChangeEvent<HTMLInputElement>) => {
@@ -48,6 +57,7 @@ const LabelForm: React.FC<LabelFormProps> = ({
       productName: "",
       quantity: "",
       sku: "",
+      productImage: "",
     });
     onReset();
   };
@@ -146,6 +156,69 @@ const LabelForm: React.FC<LabelFormProps> = ({
               placeholder="Digite o SKU"
               className="w-full"
             />
+          </div>
+
+          <div className="space-y-2">
+            <Label htmlFor="productImage">Imagem do Produto</Label>
+            <div className="flex flex-col space-y-2">
+              <div className="flex items-center space-x-2">
+                <Input
+                  id="productImage"
+                  name="productImage"
+                  type="url"
+                  value={formData.productImage}
+                  onChange={handleInputChange}
+                  placeholder="URL da imagem do produto"
+                  className="w-full"
+                />
+                {formData.productImage && (
+                  <div className="h-12 w-12 rounded-md overflow-hidden border border-gray-200 flex-shrink-0">
+                    <img
+                      src={formData.productImage}
+                      alt="Prévia"
+                      className="h-full w-full object-cover"
+                      onError={(e) => {
+                        e.currentTarget.src =
+                          "https://api.dicebear.com/7.x/avataaars/svg?seed=placeholder";
+                      }}
+                    />
+                  </div>
+                )}
+              </div>
+
+              <div className="flex items-center space-x-2">
+                <Button
+                  variant="outline"
+                  className="w-full flex items-center justify-center"
+                  type="button"
+                  onClick={() => fileInputRef.current?.click()}
+                >
+                  <Upload className="h-4 w-4 mr-2" />
+                  Carregar imagem do computador
+                </Button>
+                <input
+                  type="file"
+                  ref={fileInputRef}
+                  className="hidden"
+                  accept="image/*"
+                  onChange={(e) => {
+                    const file = e.target.files?.[0];
+                    if (file) {
+                      const reader = new FileReader();
+                      reader.onload = (event) => {
+                        const updatedFormData = {
+                          ...formData,
+                          productImage: event.target?.result as string,
+                        };
+                        setFormData(updatedFormData);
+                        onFormChange(updatedFormData);
+                      };
+                      reader.readAsDataURL(file);
+                    }
+                  }}
+                />
+              </div>
+            </div>
           </div>
         </div>
 

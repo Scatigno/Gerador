@@ -12,20 +12,54 @@ const Home: React.FC = () => {
     const labelElement = document.querySelector(".label-preview-card");
     if (!labelElement) return;
 
-    // Set up the print window
+    // Get all styles from the current document
+    const styles = Array.from(document.styleSheets)
+      .map((styleSheet) => {
+        try {
+          return Array.from(styleSheet.cssRules)
+            .map((rule) => rule.cssText)
+            .join("\n");
+        } catch (e) {
+          // Ignore cross-origin stylesheets
+          return "";
+        }
+      })
+      .filter(Boolean)
+      .join("\n");
+
+    // Set up the print window with all current styles
     printWindow.document.write(`
       <html>
         <head>
           <title>Etiqueta JQ Shop</title>
           <style>
-            body { margin: 0; padding: 0; }
+            ${styles}
+            @page {
+              size: 10cm 15cm;
+              margin: 0;
+            }
+            body { 
+              margin: 0; 
+              padding: 0; 
+              background-color: white;
+            }
             .print-container { 
               width: 10cm; 
               height: 15cm; 
-              margin: 0 auto; 
+              margin: 0; 
               padding: 0; 
               box-sizing: border-box;
               font-family: Arial, sans-serif;
+              position: relative;
+              overflow: hidden;
+            }
+            .label-preview-card {
+              width: 10cm !important;
+              height: 15cm !important;
+              max-width: none !important;
+              border: none !important;
+              box-shadow: none !important;
+              margin: 0 !important;
             }
           </style>
         </head>
@@ -33,18 +67,21 @@ const Home: React.FC = () => {
           <div class="print-container">
             ${labelElement.outerHTML}
           </div>
+          <script>
+            // Ensure images are loaded before printing
+            window.onload = function() {
+              setTimeout(function() {
+                window.print();
+                window.close();
+              }, 1000);
+            };
+          </script>
         </body>
       </html>
     `);
 
     printWindow.document.close();
     printWindow.focus();
-
-    // Print after a short delay to ensure content is loaded
-    setTimeout(() => {
-      printWindow.print();
-      printWindow.close();
-    }, 500);
 
     console.log("Imprimindo apenas a etiqueta...");
   };
