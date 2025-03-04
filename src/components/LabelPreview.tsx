@@ -58,9 +58,9 @@ const LabelPreview: React.FC<LabelPreviewProps> = ({
           <div className="flex-grow flex flex-col items-center justify-center space-y-6">
             <div className="w-full">
               <h2 className="text-xl font-bold mb-1 text-center">Produto:</h2>
-              <div className="flex flex-col items-center justify-center gap-2">
+              <div className="flex items-center justify-center gap-4">
                 {productImage && (
-                  <div className="h-24 w-24 rounded-md overflow-hidden border border-gray-300 mx-auto mb-2">
+                  <div className="h-24 w-24 rounded-md overflow-hidden border border-gray-300 flex-shrink-0">
                     <img
                       src={productImage}
                       alt={productName}
@@ -72,7 +72,7 @@ const LabelPreview: React.FC<LabelPreviewProps> = ({
                     />
                   </div>
                 )}
-                <p className="text-3xl font-bold break-words w-full text-center">
+                <p className="text-2xl font-bold break-words flex-1">
                   {productName}
                 </p>
               </div>
@@ -90,7 +90,7 @@ const LabelPreview: React.FC<LabelPreviewProps> = ({
 
             {/* Barcode */}
             <div className="w-full flex flex-col items-center">
-              <svg ref={barcodeRef} className="w-4/5"></svg>
+              <svg ref={barcodeRef} className="w-full"></svg>
               <p className="text-sm mt-1">{sku}</p>
             </div>
           </div>

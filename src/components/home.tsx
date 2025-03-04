@@ -64,6 +64,10 @@ const Home: React.FC = () => {
               box-shadow: none !important;
               margin: 0 !important;
             }
+            svg {
+              width: 100% !important;
+              max-width: 100% !important;
+            }
           </style>
         </head>
         <body>
