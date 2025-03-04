@@ -46,12 +46,15 @@ const Home: React.FC = () => {
             .print-container { 
               width: 10cm; 
               height: 15cm; 
-              margin: 0; 
+              margin: 0 auto; 
               padding: 0; 
               box-sizing: border-box;
               font-family: Arial, sans-serif;
               position: relative;
               overflow: hidden;
+              display: flex;
+              justify-content: center;
+              align-items: center;
             }
             .label-preview-card {
               width: 10cm !important;

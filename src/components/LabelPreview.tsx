@@ -38,9 +38,7 @@ const LabelPreview: React.FC<LabelPreviewProps> = ({
   }, [sku]);
 
   return (
-    <div className="flex flex-col items-center w-full max-w-[600px] bg-gray-50 p-6 rounded-lg">
-      <h2 className="text-xl font-bold mb-4">Visualização da Etiqueta</h2>
-
+    <div className="flex flex-col items-center w-full max-w-[600px] bg-gray-50 p-6 rounded-lg h-full">
       {/* Label Preview Card - Simulating a 10x15 vertical label */}
       <Card
         className="w-full max-w-[400px] h-[600px] bg-white border-2 border-gray-300 shadow-md mb-4 label-preview-card"
@@ -60,9 +58,9 @@ const LabelPreview: React.FC<LabelPreviewProps> = ({
           <div className="flex-grow flex flex-col items-center justify-center space-y-6">
             <div className="w-full">
               <h2 className="text-xl font-bold mb-1 text-center">Produto:</h2>
-              <div className="flex items-center justify-center gap-2">
+              <div className="flex flex-col items-center justify-center gap-2">
                 {productImage && (
-                  <div className="h-24 w-24 rounded-md overflow-hidden border border-gray-300">
+                  <div className="h-24 w-24 rounded-md overflow-hidden border border-gray-300 mx-auto mb-2">
                     <img
                       src={productImage}
                       alt={productName}
@@ -74,7 +72,7 @@ const LabelPreview: React.FC<LabelPreviewProps> = ({
                     />
                   </div>
                 )}
-                <p className="text-3xl font-bold break-words flex-1 text-center">
+                <p className="text-3xl font-bold break-words w-full text-center">
                   {productName}
                 </p>
               </div>

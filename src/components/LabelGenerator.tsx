@@ -62,7 +62,7 @@ const LabelGenerator: React.FC<LabelGeneratorProps> = ({
         Gerador de Etiquetas
       </h1>
 
-      <div className="grid grid-cols-1 lg:grid-cols-2 gap-8">
+      <div className="grid grid-cols-1 lg:grid-cols-2 gap-8 items-start">
         <div className="space-y-6">
           <LabelForm
             onFormChange={handleFormChange}

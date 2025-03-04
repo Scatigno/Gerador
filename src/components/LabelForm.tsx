@@ -76,7 +76,7 @@ const LabelForm: React.FC<LabelFormProps> = ({
   };
 
   return (
-    <Card className="p-6 bg-white shadow-md rounded-lg w-full max-w-md">
+    <Card className="p-6 bg-white shadow-md rounded-lg w-full max-w-md h-full">
       <div className="space-y-6">
         <div className="flex justify-between items-center">
           <h2 className="text-2xl font-bold text-gray-800">
