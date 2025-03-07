@@ -10,6 +10,7 @@ interface LabelFormData {
   quantity: string;
   sku: string;
   productImage?: string;
+  location?: string;
 }
 
 interface LabelGeneratorProps {
@@ -24,6 +25,7 @@ const LabelGenerator: React.FC<LabelGeneratorProps> = ({
     quantity: "",
     sku: "",
     productImage: "",
+    location: "",
   });
   const [showScanner, setShowScanner] = useState(false);
 
@@ -38,6 +40,7 @@ const LabelGenerator: React.FC<LabelGeneratorProps> = ({
       quantity: "",
       sku: "",
       productImage: "",
+      location: "",
     });
   };
 
@@ -99,6 +102,7 @@ const LabelGenerator: React.FC<LabelGeneratorProps> = ({
             }
             sku={formData.sku || undefined}
             productImage={formData.productImage}
+            location={formData.location}
             onPrint={onPrint}
           />
         </div>

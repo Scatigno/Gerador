@@ -22,6 +22,7 @@ export interface LabelFormData {
   quantity: string;
   sku: string;
   productImage?: string;
+  location?: string;
 }
 
 const LabelForm: React.FC<LabelFormProps> = ({
@@ -34,6 +35,7 @@ const LabelForm: React.FC<LabelFormProps> = ({
     quantity: "",
     sku: "",
     productImage: "",
+    location: "",
   });
   const fileInputRef = useRef<HTMLInputElement>(null);
   const [showScanner, setShowScanner] = useState(false);
@@ -58,6 +60,7 @@ const LabelForm: React.FC<LabelFormProps> = ({
       quantity: "",
       sku: "",
       productImage: "",
+      location: "",
     });
     onReset();
   };
@@ -154,6 +157,18 @@ const LabelForm: React.FC<LabelFormProps> = ({
               value={formData.sku}
               onChange={handleInputChange}
               placeholder="Digite o SKU"
+              className="w-full"
+            />
+          </div>
+
+          <div className="space-y-2">
+            <Label htmlFor="location">Localização (opcional)</Label>
+            <Input
+              id="location"
+              name="location"
+              value={formData.location || ""}
+              onChange={handleInputChange}
+              placeholder="Digite a localização do produto"
               className="w-full"
             />
           </div>

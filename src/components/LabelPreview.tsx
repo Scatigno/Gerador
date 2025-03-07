@@ -9,6 +9,7 @@ interface LabelPreviewProps {
   quantity?: number;
   sku?: string;
   productImage?: string;
+  location?: string;
   onPrint?: () => void;
 }
 
@@ -17,9 +18,11 @@ const LabelPreview: React.FC<LabelPreviewProps> = ({
   quantity = 10,
   sku = "SKU12345",
   productImage = "",
+  location = "",
   onPrint = () => console.log("Imprimir etiqueta"),
 }) => {
   const barcodeRef = useRef<SVGSVGElement>(null);
+  const locationBarcodeRef = useRef<SVGSVGElement>(null);
 
   useEffect(() => {
     if (barcodeRef.current && sku) {
@@ -36,6 +39,22 @@ const LabelPreview: React.FC<LabelPreviewProps> = ({
       }
     }
   }, [sku]);
+
+  useEffect(() => {
+    if (locationBarcodeRef.current && location) {
+      try {
+        JsBarcode(locationBarcodeRef.current, location, {
+          format: "CODE128",
+          width: 2,
+          height: 40,
+          displayValue: false,
+          margin: 0,
+        });
+      } catch (error) {
+        console.error("Erro ao gerar código de barras de localização:", error);
+      }
+    }
+  }, [location]);
 
   return (
     <div className="flex flex-col items-center w-full max-w-[600px] bg-gray-50 p-6 rounded-lg h-full">
@@ -80,7 +99,7 @@ const LabelPreview: React.FC<LabelPreviewProps> = ({
 
             <div className="text-center w-full">
               <h2 className="text-xl font-bold mb-1">Quantidade:</h2>
-              <p className="text-5xl font-bold">{quantity}</p>
+              <p className="text-2xl font-bold">{quantity}</p>
             </div>
 
             <div className="text-center w-full">
@@ -88,11 +107,19 @@ const LabelPreview: React.FC<LabelPreviewProps> = ({
               <p className="text-2xl font-bold">{sku}</p>
             </div>
 
-            {/* Barcode */}
+            {/* SKU Barcode */}
             <div className="w-full flex flex-col items-center">
               <svg ref={barcodeRef} className="w-full"></svg>
               <p className="text-sm mt-1">{sku}</p>
             </div>
+
+            {/* Location Barcode (optional) */}
+            {location && (
+              <div className="w-full flex flex-col items-center mt-2">
+                <p className="text-sm mb-1">Localização: {location}</p>
+                <svg ref={locationBarcodeRef} className="w-full"></svg>
+              </div>
+            )}
           </div>
         </CardContent>
       </Card>
